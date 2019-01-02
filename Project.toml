@@ -1,0 +1,11 @@
+authors = ["WooKyoung Noh <wookay.noh@gmail.com>"]
+name = "Lupin"
+uuid = "03c70d9c-0ed3-11e9-06d8-0580e60b4340"
+version = "0.1.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Jive = "6ea17500-d18f-11e8-3cf5-7930f07cb877"
+
+[targets]
+test = ["Test", "Jive"]
