@@ -2,7 +2,7 @@
 
 export partition
 
-function hreshape(V::Vector{T}, dims) where T
+function hreshape(V::Vector{T}; dims) where T
     A = Array{T}(undef, dims)
     (m, n) = dims
     for i=axes(A, 1), j=axes(A, 2)
@@ -11,13 +11,14 @@ function hreshape(V::Vector{T}, dims) where T
     A
 end
 
-function partition(v::Vector; cols::Int, fill)
+# similar Base.Iterators.partition but returns Matrix
+function partition(v::Vector{T}; cols::Int, fill)::Matrix{T} where T
     len = length(v)
     n = div(len, cols)
     if iszero(len % cols)
-        hreshape(v, (n, cols))
+        hreshape(v, dims=(n, cols))
     else
-        A = hreshape(v[1:n*cols], (n, cols))
+        A = hreshape(v[1:n*cols], dims=(n, cols))
         vcat(A, [v[n*cols+1:end]... Base.fill(fill, cols - len % cols)...])
     end
 end
