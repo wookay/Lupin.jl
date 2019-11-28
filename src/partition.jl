@@ -1,7 +1,5 @@
 # module Lupin
 
-export partition
-
 function hreshape(V::Vector{T}; dims) where T
     A = Array{T}(undef, dims)
     (m, n) = dims
