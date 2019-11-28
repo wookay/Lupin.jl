@@ -14,4 +14,8 @@ function vecjoin(elements::Array{E, N}, delim::D)::Vector{Union{E, D}} where  {E
     result
 end
 
+function vecjoin(r::AbstractRange, delim)
+    vecjoin(collect(r), delim)
+end
+
 # module Lupin

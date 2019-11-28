@@ -8,5 +8,6 @@ using Lupin
 @test vecjoin([1, 2, 3], +) == [1, +, 2, +, 3]
 @test vecjoin([1 2 3], +) == [1, +, 2, +, 3]
 @test vecjoin([1 2 3], 5) == [1, 5, 2, 5, 3]
+@test vecjoin(1:3, +) == [1, +, 2, +, 3]
 
 end # module test_lupin_vecjoin

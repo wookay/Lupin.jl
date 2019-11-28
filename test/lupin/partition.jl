@@ -18,4 +18,8 @@ A = partition(V, cols=5, fill="")
 @test A == ["a"  "b"  "c"  "d"  "e"
             "f"  "g"  "h"  "i"  "j"]
 
+@test partition(1:5, cols=2, fill=0) == [1 2
+                                         3 4
+                                         5 0]
+
 end # module test_lupin_partition

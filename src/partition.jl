@@ -21,4 +21,8 @@ function partition(v::Vector{T}; cols::Int, fill)::Matrix{T} where T
     end
 end
 
+function partition(r::AbstractRange; kwargs...)
+    partition(collect(r); kwargs...)
+end
+
 # module Lupin
