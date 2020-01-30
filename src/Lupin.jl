@@ -6,7 +6,7 @@ include("partition.jl")
 export vecjoin
 include("vecjoin.jl")
 
-include("merge.jl")
+include("mergewith.jl")
 
 include("dict.jl")
 

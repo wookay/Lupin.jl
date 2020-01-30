@@ -3,12 +3,14 @@ name = "Lupin"
 uuid = "03c70d9c-0ed3-11e9-06d8-0580e60b4340"
 version = "0.1.0"
 
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+[deps]
 Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
 
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
 [targets]
-test = ["Test", "Jive"]
+test = ["Test"]
 
 [compat]
 julia = "1"
