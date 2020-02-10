@@ -10,4 +10,6 @@ include("mergewith.jl")
 
 include("dict.jl")
 
+include("compose.jl")
+
 end # module Lupin
