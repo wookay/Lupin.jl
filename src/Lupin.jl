@@ -12,4 +12,6 @@ include("dict.jl")
 
 include("compose.jl")
 
+include("enums.jl")
+
 end # module Lupin
