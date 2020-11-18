@@ -1,8 +1,12 @@
 # module Lupin
 
-function vecjoin(elements::Array{E, N}, delim::D)::Vector{Union{E, D}} where  {E, N, D}
+function vecjoin(elements::Array{E, N}, delim::D)::Union{Vector{typejoin(E, D)}, Vector{Union{E, D}}} where {E, N, D}
     first = true
-    result = Vector{Union{E, D}}()
+    T = typejoin(E, D)
+    if T === Any
+        T = Union{E, D}
+    end
+    result = Vector{T}()
     for el in elements
         if first
             first = false
@@ -14,7 +18,7 @@ function vecjoin(elements::Array{E, N}, delim::D)::Vector{Union{E, D}} where  {E
     result
 end
 
-function vecjoin(r::AbstractRange, delim)
+function vecjoin(r::AbstractRange{E}, delim::D)::Union{Vector{typejoin(E, D)}, Vector{Union{E, D}}} where {E, D}
     vecjoin(collect(r), delim)
 end
 
