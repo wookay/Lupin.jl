@@ -14,4 +14,7 @@ include("compose.jl")
 
 include("enums.jl")
 
+export Argument, apply
+include("arguments.jl")
+
 end # module Lupin
