@@ -1,5 +1,6 @@
 # module Lupin
 
+#=
 function Base.getproperty(::Type{T}, sym::Symbol) where {T <: Enum}
     if sym in (:name, :parameters)
         getfield(T, sym)
@@ -10,5 +11,6 @@ function Base.getproperty(::Type{T}, sym::Symbol) where {T <: Enum}
         throw(ErrorException(string("type ", T, " has no field ", sym)))
     end
 end
+=#
 
 # module Lupin

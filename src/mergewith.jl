@@ -1,23 +1,32 @@
 # module Lupin
 
+# code from julia/base/namedtuple.jl
 using Base: merge_names, merge_types, sym_in
 
-mergewith_namedtuples(combine::Function, a::NamedTuple, b::NamedTuple, cs::NamedTuple...) = mergewith_namedtuples(combine, mergewith_namedtuples(combine, a, b), cs...)
+function mergewith_namedtuples(combine::Function, a::NamedTuple, b::NamedTuple, cs::NamedTuple...)
+    mergewith_namedtuples(combine, mergewith_namedtuples(combine, a, b), cs...)
+end
 
 function mergewith_namedtuples(combine::Function, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
-    types = merge_types(names, typeof(a), typeof(b))
-    NamedTuple{names, types}(map(names) do n
+    types = collect(fieldtypes(merge_types(names, typeof(a), typeof(b))))
+    values = map(enumerate(names)) do (idx, n)
             if sym_in(n, bn)
                 if sym_in(n, an)
-                    combine(getfield(a, n), getfield(b, n))
+                    value = combine(getfield(a, n), getfield(b, n))
+                    typ = types[idx]
+                    if typ !== typeof(value)
+                        types[idx] = promote_type(typ, typeof(value))
+                    end
+                    value
                 else
                     getfield(b, n)
                 end
             else
                 getfield(a, n)
             end
-        end)
+        end
+    NamedTuple{names, Tuple{types...}}(values)
 end
 
 if VERSION >= v"1.5.0-DEV.182"
