@@ -1,13 +1,13 @@
 # module Lupin
 
 # code from julia/base/namedtuple.jl
-using Base: merge_names, merge_types, sym_in
+using Base: Callable, merge_names, merge_types, sym_in
 
-function mergewith_namedtuples(combine::Function, a::NamedTuple, b::NamedTuple, cs::NamedTuple...)
+function mergewith_namedtuples(combine::Callable, a::NamedTuple, b::NamedTuple, cs::NamedTuple...)
     mergewith_namedtuples(combine, mergewith_namedtuples(combine, a, b), cs...)
 end
 
-function mergewith_namedtuples(combine::Function, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
+function mergewith_namedtuples(combine::Callable, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
     types = collect(fieldtypes(merge_types(names, typeof(a), typeof(b))))
     values = map(enumerate(names)) do (idx, n)
@@ -30,7 +30,7 @@ function mergewith_namedtuples(combine::Function, a::NamedTuple{an}, b::NamedTup
 end
 
 if VERSION >= v"1.5.0-DEV.182"
-    function Base.mergewith(combine::Function, nt::NamedTuple, others::NamedTuple...)
+    function Base.mergewith(combine::Callable, nt::NamedTuple, others::NamedTuple...)
         mergewith_namedtuples(combine, nt, others...)
     end
 else
