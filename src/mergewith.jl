@@ -34,6 +34,7 @@ if VERSION >= v"1.5.0-DEV.182"
         mergewith_namedtuples(combine, nt, others...)
     end
 else
+    mergewith_namedtuples(combine::Callable) = (args::NamedTuple...) -> mergewith_namedtuples(combine, args...)
     export mergewith
     mergewith = mergewith_namedtuples
 end
