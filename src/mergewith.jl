@@ -1,13 +1,18 @@
 # module Lupin
 
 # code from julia/base/namedtuple.jl
+#           julia/base/abstractdict.jl
+
+if VERSION >= v"1.5.0-DEV.182"
+import Base: mergewith
+end
 using Base: Callable, merge_names, merge_types, sym_in
 
-function mergewith_namedtuples(combine::Callable, nt::NamedTuple, others::NamedTuple...)
+function mergewith(combine::Callable, nt::NamedTuple, others::NamedTuple...)
     foldl(mergewith(combine), others; init = nt)
 end
 
-function mergewith_namedtuples(combine::Callable, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
+function mergewith(combine::Callable, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
     types = collect(fieldtypes(merge_types(names, typeof(a), typeof(b))))
     values = @inbounds map(enumerate(names)) do (idx, n)
@@ -29,14 +34,9 @@ function mergewith_namedtuples(combine::Callable, a::NamedTuple{an}, b::NamedTup
     NamedTuple{names, Tuple{types...}}(values)
 end
 
-if VERSION >= v"1.5.0-DEV.182"
-    function Base.mergewith(combine::Callable, nt::NamedTuple, others::NamedTuple...)
-        mergewith_namedtuples(combine, nt, others...)
-    end
-else
-    mergewith_namedtuples(combine::Callable) = (args::NamedTuple...) -> mergewith_namedtuples(combine, args...)
+if VERSION < v"1.5.0-DEV.182"
+    mergewith(combine::Callable) = (args::NamedTuple...) -> mergewith(combine, args...)
     export mergewith
-    mergewith = mergewith_namedtuples
 end
 
 # module Lupin
