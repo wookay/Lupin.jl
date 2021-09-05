@@ -3,14 +3,14 @@
 # code from julia/base/namedtuple.jl
 using Base: Callable, merge_names, merge_types, sym_in
 
-function mergewith_namedtuples(combine::Callable, a::NamedTuple, b::NamedTuple, cs::NamedTuple...)
-    mergewith_namedtuples(combine, mergewith_namedtuples(combine, a, b), cs...)
+function mergewith_namedtuples(combine::Callable, nt::NamedTuple, others::NamedTuple...)
+    foldl(mergewith(combine), others; init = nt)
 end
 
 function mergewith_namedtuples(combine::Callable, a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
     types = collect(fieldtypes(merge_types(names, typeof(a), typeof(b))))
-    values = map(enumerate(names)) do (idx, n)
+    values = @inbounds map(enumerate(names)) do (idx, n)
             if sym_in(n, bn)
                 if sym_in(n, an)
                     value = combine(getfield(a, n), getfield(b, n))

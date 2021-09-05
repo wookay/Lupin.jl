@@ -5,10 +5,10 @@ using Lupin
 
 a = (foo = 0.0, bar = 42.0)
 b = (baz = 17, bar = 4711)
-@test mergewith(+, a, b) == (foo = 0.0, bar = 4753.0, baz = 17)
+@test mergewith(+, a, b) == mergewith(+)(a, b) == (foo = 0.0, bar = 4753.0, baz = 17)
 
 A = [(a=1, b=4), (a=2, b=5), (a=3, b=6)]
-@test mergewith(+, A...) == (a=6, b=15)
+@test mergewith(+, A...) == mergewith(+)(A...) == (a=6, b=15)
 
 getfirstarg(x, y) = x
 getsecondarg(x, y) = y
