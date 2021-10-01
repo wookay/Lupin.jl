@@ -14,6 +14,8 @@ include("compose.jl")
 
 include("enums.jl")
 
+include("reverse.jl")
+
 export Argument, apply
 include("arguments.jl")
 
